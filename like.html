@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Enlace a Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Gustos - Guía para mi Cumpleaños skibidi 🎂</title>
+    
+    <style>
+        :root {
+            --primary: #ffb5f3;
+            --secondary: #ffffff;
+            --bg: #ffdbf9;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --text: #494949;
+            --accent: #000000;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-image: url('invito.jpg'); 
+            background-size: cover;          /* Hace que la foto cubra toda la pantalla */
+            background-position: center;     /* Centra la imagen */
+            background-attachment: fixed;    /* Mantiene el fondo fijo al hacer scroll */
+            background-repeat: no-repeat;    /* Evita que la foto se repita como mosaico */
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        h1, h2 {
+            font-family: 'Pacifico', cursive;
+        }
+
+        /* Contenedor Principal del Carrusel */
+        .carousel-wrapper {
+            position: relative;
+            width: 90%;
+            max-width: 520px;
+            height: 85vh;
+            max-height: 680px;
+        }
+
+        /* Contenedor deslizable horizontal */
+        .carousel {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Ocultar la barra de scroll visual */
+        .carousel::-webkit-scrollbar {
+            display: none;
+        }
+        .carousel {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Cada tarjeta / sección individual */
+        .slide {
+            flex: 0 0 100%;
+            width: 100%;
+            height: 100%;
+            scroll-snap-align: start;
+            background: var(--card-bg);
+            padding: 30px 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            text-align: center;
+            overflow-y: auto; /* Permite scroll vertical interno si hay muchas fotos */
+            backdrop-filter: blur(4px);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--accent);
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 0.95em;
+            margin-bottom: 20px;
+            color: hsl(0, 0%, 0%);
+        }
+
+        h2 {
+            font-size: 1.5em;
+            color: #000000;
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+            width: 100%;
+            text-align: left;
+        }
+
+        li {
+            padding: 10px 14px;
+            margin: 8px 0;
+            background-color: #ffffff;
+            border-left: 4px solid var(--primary);
+            border-radius: 6px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+            font-size: 0.92em;
+        }
+
+        /* Bloque especial para Paleta de Colores */
+        .color-palette {
+            display: flex;
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .color-box {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Galería de imágenes debajo de cada texto */
+        .image-gallery {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            width: 100%;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .image-gallery img {
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.12);
+        }
+
+        /* Botones / Flechas de Navegación */
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2em;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            z-index: 10;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn:hover {
+            background: #ffffff;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .prev { left: -18px; }
+        .next { right: -18px; }
+
+        .footer {
+            text-align: center;
+            margin-top: auto;
+            padding-top: 15px;
+            font-weight: bold;
+            color: var(--accent);
+        }
+    </style>
+</head>
+<body>
+
+<div class="carousel-wrapper">
+    <!-- Flechas laterales de navegación -->
+    <button class="nav-btn prev" onclick="moveSlide(-1)">❮</button>
+    <button class="nav-btn next" onclick="moveSlide(1)">❯</button>
+
+    <div class="carousel" id="carousel">
+       
+        <!-- Diapositiva 0: INVITACION -->
+        <div class="slide">
+            <h1>🎉 ¡Estás invitado a mi Cumpleaños! 🎉</h1>
+            <p class="subtitle"> WENA WENA WENA</p>
+            <p class="subtitle"> Aquí está el cronograma y algunos de mis gustos</p>
+            <div class="image-gallery" style="margin-top: 10px;">
+                <img src="love.jpg" alt="Invitación" onerror="this.src='https://via.placeholder.com/150?text=Invitacion'">
+            </div>
+         </div>
+
+        <!-- Diapositiva A: CRONOGRAMA -->
+        <div class="slide">
+            <h2>📅 Cronograma de mi Cumpleaños</h2>
+            <p>Este es un skibidi resumen del cumple</p>
+            <ul>
+                <li><strong>17:00 PM:</strong> CHUCK E. CHEESE.</li>
+                <li><strong>18:40 PM:</strong> Nos vamos.</li>
+            </ul>
+
+            <!-- Espacio para imágenes del cronograma -->
+            <div class="image-gallery">
+                <img src="logo.png" alt="Desayuno" onerror="this.src='https://via.placeholder.com/150?text=logo'">
+            </div>
+        </div>
+
+         <!-- Diapositiva B: CRONOGRAMA 2 -->
+        <div class="slide">
+            <h2>📅(Parte 2)</h2>
+            <p>Luego nos vamos al Karaoke, yo digo que 2 horas, pero yo puedo pagar una y ustedes entre todos la otra</p>
+            <ul>
+                <li><strong>19:00 PM:</strong> KARAOKE</li>
+                <li><strong>21:00 PM:</strong> Nos vamos a mi Departamento</li>
+            </ul>
+
+            <!-- Espacio para imágenes del cronograma -->
+            <div class="image-gallery">
+                <img src="karaoke.png" alt="KARAOKE" onerror="this.src='https://via.placeholder.com/150?text=KARAOKE'">
+            </div>
+        </div>
+
+        <!-- Diapositiva C: CRONOGRAMA 3 -->
+        <div class="slide">
+            <h2>📅(Parte 3)</h2>
+            <p>Luego nos vamos a mi Departamento</p>
+            <ul>
+                <li><strong>21:00 PM:</strong> Nos vamos a mi Departamento</li>
+            </ul>
+
+            <!-- Espacio para imágenes del cronograma -->
+            <div class="image-gallery">
+                <img src="isla.jpg" alt="isla" onerror="this.src='https://via.placeholder.com/150?text=Isla'">
+            </div>
+        </div>
+
+        <!-- Diapositiva 1: Inicio -->
+        <div class="slide">
+            <h1>✨ Guía de Regalos y Gustos ✨</h1>
+            <p class="subtitle">Wena wena wena wena, aquí hay un par de ideas por si no sabes qué regalarme en mi cumple</p>
+            <p style="font-size: 0.85em; color: #666; margin-top: 15px;">👉 Desliza a los lados o usa las flechas para ver las categorías.</p>
+            
+            <div class="image-gallery" style="margin-top: 25px;">
+                <!-- Cambia 'bienvenida.jpg' por el nombre de tu foto si quieres -->
+                <img src="sixseven.jpg" alt="Bienvenida" onerror="this.src='https://via.placeholder.com/150?text=🎂'">
+            </div>
+
+            <div class="footer">
+                Cualquier cosita se agradece owo
+            </div>
+        </div>
+
+        <!-- Diapositiva 2: Colores -->
+        <div class="slide">
+            <h2>🎨 Colores Favoritos</h2>
+            <p>Mis tonos preferidos son:</p>
+            <div class="color-palette">
+                <div class="color-box" style="background-color: #ffabc8;" title="Rosa pastel"></div>
+                <div class="color-box" style="background-color: hsl(245, 100%, 2%);" title="Azul suave"></div>
+                <div class="color-box" style="background-color: #7954ff;" title="Malva"></div>
+            </div>
+        </div>
+
+        <!-- Diapositiva 3: Maquillaje -->
+        <div class="slide">
+            <h2>💄 Maquillaje y Cuidado Personal</h2>
+            <ul>
+                <li><strong>Tonos de labiales:</strong> Cereza, rosados suave, especialmente tintas.</li>
+                <li><strong>Marcas/Productos:</strong> Glosses con brillo, rubores en barra, mascarillas hidratantes, skin care, paletas de ojos de brillos.</li>
+                <li><strong>Aromas:</strong> Dulces, florales suaves, coco.</li>
+            </ul>
+
+            <!-- Espacio para imágenes de maquillaje -->
+            <div class="image-gallery">
+                <img src="maquillaje1.jpg" alt="Maquillaje 1" onerror="this.src='https://via.placeholder.com/150?text=Gloss/Tintas'">
+                <img src="tung.jpg" alt="Maquillaje 2" onerror="this.src='https://via.placeholder.com/150?text=tung'">
+            </div>
+        </div>
+
+        <!-- Diapositiva 4: Personajes e Intereses -->
+        <div class="slide">
+            <h2>⭐ Personajes e Intereses ⭐</h2>
+            <ul>
+                <li><strong>Película:</strong> Harry Potter</li>
+                <li><strong>Anime:</strong> HxH - Killua, Haikyuu - Kenma</li>
+                <li><strong>K-POP:</strong> BTS, NewJeans, StayC</li>
+            </ul>
+
+            <!-- Espacio para imágenes de personajes y grupos -->
+            <div class="image-gallery">
+                <img src="personaje1.jpg" alt="Killua/Kenma" onerror="this.src='https://via.placeholder.com/150?text=Killua/Kenma'">
+            </div>
+        </div>
+
+        <!-- Diapositiva 5: Otras cosillas -->
+        <div class="slide">
+            <h2>🎁 Otras Cosillas</h2>
+            <ul>
+                <li><strong>Talla de ropa/poleras:</strong> Que me quede enorme, XL o 2XL.</li>
+                <li><strong>Accesorios:</strong> Aros pegaditos, collares plateados o de colores, etc.</li>
+                <li><strong>Snacks preferidos:</strong> Chocolates, papas fritas, etc.</li>
+            </ul>
+
+            <!-- Espacio para imágenes de accesorios o snacks -->
+            <div class="image-gallery">
+                <img src="extra1.jpg" alt="Accesorios" onerror="this.src='https://via.placeholder.com/150?text=Accesorios'">
+            </div>
+        </div>
+
+        <!-- Diapositiva 6: Otras cosillas -->
+        <!-- Diapositiva: Playlist Colaborativa -->
+        <div class="slide">
+            <h2>🎵 Playlist del Cumpleaños</h2>
+            <p style="font-size: 0.9em;">Aquí para que pongan su skibidi música</p>
+
+            <!-- 1. Reproductor visual de Spotify -->
+            <iframe style="border-radius:12px; margin-top: 10px;" 
+                    src="https://open.spotify.com/embed/playlist/1MFXuhc0mbUMDpxAIRsYgx" 
+                    width="100%" 
+                    height="152" 
+                    frameBorder="0" 
+                    allowfullscreen="" 
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                    loading="lazy">
+            </iframe>
+
+            <!-- 2. Botón interactivo para sumarse como colaborador -->
+            <a href="https://open.spotify.com/playlist/1MFXuhc0mbUMDpxAIRsYgx?si=f1ec7e8c5f56443c&pt=745730bbe14e97233a9c5bb62f6415ba" target="_blank" style="
+                display: inline-block;
+                margin-top: 15px;
+                padding: 12px 20px;
+                background-color: #1DB954;
+                color: white;
+                text-decoration: none;
+                font-weight: bold;
+                border-radius: 25px;
+                font-size: 0.9em;
+                box-shadow: 0 4px 10px rgba(29, 185, 84, 0.3);
+            ">
+                ➕ Agregar tus canciones en Spotify
+            </a>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    // Función para mover el carrusel con las flechas
+    function moveSlide(direction) {
+        const carousel = document.getElementById('carousel');
+        const slideWidth = carousel.clientWidth;
+        carousel.scrollBy({
+            left: direction * slideWidth,
+            behavior: 'smooth'
+        });
+    }
+</script>
+
+</body>
+</html>
